@@ -1,0 +1,37 @@
+:root {
+    /* color */
+    --main-color: #f7e600;
+    --sub-color: rgb(58, 29, 29);
+    --button-color: rgb(224, 224, 224);
+}
+
+body{
+    background-color: var(--main-color)
+}
+
+.logo{
+    margin-top: 30px;
+}
+
+#email_input, #pw_input{
+    width: 300px;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+#login{
+    width: 300px;
+    height: 40px; 
+    border: none;
+    border-radius: 5px;
+    background-color: var(--sub-color);
+    color: var(--button-color);
+}
+
+#join{
+    text-decoration: none;
+    color: var(--sub-color);
+
+}
