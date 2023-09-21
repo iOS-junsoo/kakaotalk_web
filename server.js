@@ -23,18 +23,33 @@ MongoClient.connect('mongodb+srv://admin:kjs01023@cluster0.vvzafbn.mongodb.net/?
 
 app.get('/login', function(request, response){
     response.render('login.ejs')
-    // db.collection('user').insertOne({email: "rlawnstn01023@naver.com", pw: "1234", nickname: "김준수", imgURL: "https://mblogthumb-phinf.pstatic.net/MjAyMDAyMTBfODAg/MDAxNTgxMzA0MTE3ODMy.ACRLtB9v5NH-I2qjWrwiXLb7TeUiG442cJmcdzVum7cg.eTLpNg_n0rAS5sWOsofRrvBy0qZk_QcWSfUiIagTfd8g.JPEG.lattepain/1581304118739.jpg?type=w800"}, function (error, result) {
-    //     console.log(result);
-    // });
 });
 
-app.post('/login', function(request, response){
-    response.render('login.ejs')
+app.post('/trylogin', function(request, response){
     db.collection('user').findOne({email: request.body.email, pw: request.body.pw}, function (error, result) {
         if (!result) {
             console.log('회원가입 필요');
         } else {
             console.log('회원가입 불 필요');
+            response.redirect('/main_friends')
         }
     });
+});
+
+app.get('/join', function(request, response){
+    response.render('join.ejs')
+});
+
+app.post('/adduser', function(request, response){
+
+    db.collection('user').insertOne({email: request.body.email, pw: request.body.pw, realname: request.body.realname, nickname: request.body.nickname}, function (error, result) {
+        
+    });
+
+    response.redirect('/login')
+    
+});
+
+app.get('/main_friends', function(request, response){
+    response.render('friends.ejs')
 });

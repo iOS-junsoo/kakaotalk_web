@@ -20,19 +20,21 @@
             <img src="/public/img/kakaologo.png" alt="" style="width: 150px; height: 140px; ;">
         </div>
     
-        <form action="/trylogin" method="POST" >
+        <form action="/adduser" method="POST" >
             <div class="email">
-              <input type="email" name="email" id="email_input">
+              <input type="email" name="email" id="email_input" placeholder="이메일을 입력해주세요.">
             </div>
             <div class="pw">
-              <input type="password" name="pw" id="pw_input">
+              <input type="password" name="pw" id="pw_input" placeholder="비밀번호를 입력해주세요.">
             </div>
-            <button type="submit" id="loginBtn"> <b>로그인</b> </button>
+            <div class="name">
+                <input type="text" name="realname" id="realname_input" placeholder="실제 이름을 입력해주세요.">
+            </div>
+            <div class="nickname">
+                <input type="text" name="nickname" id="nickname_input" placeholder="닉네임을 입력해주세요.">
+            </div>
+            <button type="submit" id="joinBtn"> <b>회원가입</b> </button>
         </form>  
-        
-        <div class="joinArea" >
-            <a id="join" href="http://localhost:8080/join"> <b>회원가입</b>  </a>
-        </div>
     </div>
     
 
@@ -45,10 +47,10 @@
     <!-- JavaScript -->
     <script src="/public/main.js"></script>
     <script>
-        $('.container').css('height', window.innerHeight - 150)
+        $('.container').css('height', window.innerHeight - 300)
         window.onresize = function() {
             
-            $('.container').css('height', window.innerHeight - 150)
+            $('.container').css('height', window.innerHeight - 300)
             console.log(window.innerHeight);
             
         }
