@@ -40,13 +40,19 @@ app.get('/join', function(request, response){
     response.render('join.ejs')
 });
 
+
+//MARK: 비밀번호 암호화하기
 app.post('/adduser', function(request, response){
 
     db.collection('user').insertOne({email: request.body.email, pw: request.body.pw, realname: request.body.realname, nickname: request.body.nickname}, function (error, result) {
-        
+        if (!result) {
+
+        } else {
+            response.redirect('/login')
+        }
     });
 
-    response.redirect('/login')
+    
     
 });
 

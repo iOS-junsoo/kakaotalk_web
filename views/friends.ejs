@@ -15,7 +15,82 @@
 
 <body>
 
-    메인화면
+    <div class="main_friend">
+        <div class="sidebar">
+            <div class="sidebar_header">
+                <h3> <b>친구</b> </h3>
+                <i class="fa-solid fa-user-plus"></i>
+            </div>
+            <div class="sidebar_friendsList">
+                <div class="me">
+                    <i class="fa-regular fa-circle-user"></i>
+                    <i> <b>김준수</b> </i>
+                </div>
+                <hr width=”80%” color=”lightgray” noshade />
+                <div class="friends">
+                    <ul>
+                        <li>
+                            <i class="fa-regular fa-circle-user"></i>
+                            <i>친구1</i>
+                        </li>
+                        <li>
+                            <i class="fa-regular fa-circle-user"></i>
+                            <i>친구2</i>
+                        </li>
+                        <li>
+                            <i class="fa-regular fa-circle-user"></i>
+                            <i>친구3</i>
+                        </li>
+                        <li>
+                            <i class="fa-regular fa-circle-user"></i>
+                            <i>친구4</i>
+                        </li>
+                        <li>
+                            <i class="fa-regular fa-circle-user"></i>
+                            <i>친구5</i>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sidebar_footer">
+                <i class="fa-regular fa-user"></i>
+                <i class="fa-regular fa-comment"></i>
+                <i class="fa-solid fa-ellipsis"></i>
+            </div>
+        </div>
+        <div class="chat_area">
+            <div class="chat_area_header">
+                <i> <b>친구 1의 채팅방</b> </i>
+            </div>
+            <div class="chat_area_chatContent">
+                <ul class="list-group chatcontent">
+
+                    <li><span class="chat-box mine">안녕!</span></li>
+                    
+                    <li>
+                        <span class="opponent">
+                            <i class="oppo_nickname">친구 1</i>
+                            <br>
+                            <span class="chat">
+                                <span class="chat-box">안녕하세요.</span>
+                                <span class="mt-1 chat-box">관리자님</span>
+                                
+                            </span>
+                            
+                        </span>
+                    </li>
+                    
+                    <li><span class="chat-box mine">안녕! 친구1</span></li>
+                </ul>
+            </div>
+            <div class="chat_area_footer">
+                <input id="chat-input">
+                <button id="send">전송</button>
+            </div>
+        </div>
+            
+    </div>
+    
     
 
     
@@ -27,7 +102,11 @@
     <!-- JavaScript -->
     <script src="/public/main.js"></script>
     <script>
-        
+        $('.main_friend').css('height', window.innerHeight - 150)
+        window.onresize = function() {
+            $('.main_friend').css('height', window.innerHeight - 150)
+            console.log(window.innerHeight);
+        }
     </script>
     
 
