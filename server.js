@@ -2,6 +2,16 @@ const express = require('express'); //express 라이브러리를 첨부해주세
 const app = express(); //첨부한 라이브러리를 이용해서 객체를 만들어주세요.
 const MongoClient = require('mongodb').MongoClient;
 const bodyParser= require('body-parser')
+
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const session = require('express-session');
+
+
+app.use(session({secret : '비밀코드', resave : true, saveUninitialized: false}));
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(bodyParser.urlencoded({extended: true}))
 
 app.use('/public', express.static('public'))
@@ -12,50 +22,82 @@ var db;
 MongoClient.connect('mongodb+srv://admin:kjs01023@cluster0.vvzafbn.mongodb.net/?retryWrites=true&w=majority', function(error, client){
     if (error) return console.log(error);
     db = client.db('kakaotalk');
-
+    app.db = db; //라우터 파일 분리를 위해서 작성
     app.listen(8080, function(){
         console.log('8080 포트에 입장하셨습니다.');
     });
 })
- 
-// 8080port에 서버를 연다.
 
+// MARK: LOGIN
 
 app.get('/login', function(request, response){
     response.render('login.ejs')
 });
 
-app.post('/trylogin', function(request, response){
-    db.collection('user').findOne({email: request.body.email, pw: request.body.pw}, function (error, result) {
-        if (!result) {
-            console.log('회원가입 필요');
+app.get('/fail', function(request, response) {
+    response.send('로그인에 실패하였습니다.');
+})
+
+app.post('/login', passport.authenticate('local', {
+    failureRedirect : '/fail'
+}), function(request, response){
+    response.redirect('/main_friends');
+});
+
+passport.use(new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'pw',
+    session: true,
+    passReqToCallback: false,
+}, function (enteredEmail, enteredPW, done) {
+    console.log(enteredEmail, enteredPW);
+    db.collection('user').findOne({ email: enteredEmail }, function (error, result) {
+        if (error) return done(error)
+
+        if (!result) return done(null, false, { message: '존재하지 않는 아이디 입니다.' })
+        if (enteredPW == result.pw) {
+            return done(null, result)
+            
+            
         } else {
-            console.log('회원가입 불 필요');
-            response.redirect('/main_friends')
+            return done(null, false, { message: '맞지 않는 비밀번호 입니다.' })
         }
-    });
+        console.log(result);
+    })
+}));
+
+// * [SESSION]
+
+// 세션 발급
+passport.serializeUser(function(user, done) {
+    done(null, user.email);
 });
 
-app.get('/join', function(request, response){
-    response.render('join.ejs')
+// 세션 찾기
+passport.deserializeUser(function (Email, done) {
+    db.collection('user').findOne({ email: Email }, function (error, result) {
+        done(null, result)
+    })
 });
 
+//MARK: JOIN
 
-//MARK: 비밀번호 암호화하기
-app.post('/adduser', function(request, response){
+app.use('/',require('./routes/join.js'));
 
-    db.collection('user').insertOne({email: request.body.email, pw: request.body.pw, realname: request.body.realname, nickname: request.body.nickname}, function (error, result) {
-        if (!result) {
+//MARK: MAIN
 
-        } else {
-            response.redirect('/login')
-        }
-    });
 
-    
-    
-});
-
-app.get('/main_friends', function(request, response){
+app.get('/main_friends', checkLogin, function(request, response){
     response.render('friends.ejs')
 });
+
+//로그인 되어 있는지 확인하는 함수
+function checkLogin(request, response, next){
+    if (request.user){
+        next();
+    }else {
+        response.redirect('/login')
+    }
+}
+
+//MARK: 암호화 진행하기 https://www.youtube.com/results?search_query=nodejs+%EC%95%94%ED%98%B8%ED%99%94
