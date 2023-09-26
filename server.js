@@ -41,7 +41,7 @@ app.get('/fail', function(request, response) {
 app.post('/login', passport.authenticate('local', {
     failureRedirect : '/fail'
 }), function(request, response){
-    response.redirect('/main_friends');
+    response.redirect('/main/friends');
 });
 
 passport.use(new LocalStrategy({
@@ -86,18 +86,8 @@ app.use('/',require('./routes/join.js'));
 
 //MARK: MAIN
 
+app.use('/main',require('./routes/main.js'));
 
-app.get('/main_friends', checkLogin, function(request, response){
-    response.render('friends.ejs')
-});
 
-//로그인 되어 있는지 확인하는 함수
-function checkLogin(request, response, next){
-    if (request.user){
-        next();
-    }else {
-        response.redirect('/login')
-    }
-}
 
 //MARK: 암호화 진행하기 https://www.youtube.com/results?search_query=nodejs+%EC%95%94%ED%98%B8%ED%99%94

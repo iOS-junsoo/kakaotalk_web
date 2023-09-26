@@ -31,12 +31,12 @@ li{
     margin-right: 5px;
 }
 
-.fa-user-plus{
+.fa-user-plus, .fa-comment-medical{
     font-size: 20px;
      margin-right: 10px;
 }
 
-.main_friend{
+.main{
     display: flex;
     width: 100%;
     justify-content: center;
@@ -65,13 +65,13 @@ li{
     padding: 5px;
 }
 
-.sidebar_friendsList{
+.sidebar_friendsList, .sidebar_chatsList, .sidebar_settingList{
     
     height: 800px;
     background-color: var(--sidebar-color);
     color: white;
     padding: 5px;
-    color: 
+    overflow-y: scroll;
 }
 
 .me{
@@ -193,4 +193,35 @@ li{
     border-radius: 5px;
     background-color: var(--button-color);
     color: white;
+}
+
+.chatInfo{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+}
+
+.chats li .fa-circle-user{
+    font-size: 45px;
+}
+
+.chats li{
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.sidebar_footer > .fa-regular, .fa-solid{
+    padding: 10px;
+    margin: 0;
+}
+
+.chat_opponent{
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.chat_lastContent{
+    font-size: 13px;
+    color: gray;
 }
