@@ -14,7 +14,15 @@
 </head>
 
 <body>
-
+    <div class="find_Area" >
+        <div class="find_friends">
+            <h3 style="text-align: center; margin-top: 10px;">친구 찾기</h3>
+            <div class="search_Area" style="text-align: center;">
+                <input id="id_input">
+                <button id="search">검색</button>
+            </div>
+        </div>
+    </div>
     <div class="main">
         <div class="sidebar">
             <div class="sidebar_header">
@@ -150,6 +158,9 @@
         </div>
             
     </div>
+
+    
+    
     
     
 
@@ -162,8 +173,17 @@
     <!-- JavaScript -->
     <script src="/public/main.js"></script>
     <script>
-        
+        $('.fa-user-plus').click(function(){
+            $('.find_friends').css('display', 'block');
+        })
 
+
+        $('.find_friends').css('margin-bottom', -(window.innerHeight/2)-400)
+        window.onresize = function() {
+            $('.find_friends').css('margin-bottom', -(window.innerHeight/2)-400)
+            console.log(window.outerWidth-window.innerHeight);
+            
+        }
         
     </script>
     

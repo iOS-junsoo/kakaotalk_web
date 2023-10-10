@@ -42,7 +42,7 @@ li{
     justify-content: center;
     align-items: center;
     padding: 20px;
-    
+    z-index: 2;
 }
 
 /* sidebar */
@@ -224,4 +224,24 @@ li{
 .chat_lastContent{
     font-size: 13px;
     color: gray;
+}
+
+.find_Area, .create_Area{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    z-index: 2;
+    
+}
+
+.find_friends, .create_chatroom{
+    display: none;
+    background-color: lightgray;
+    position: relative;
+    width: 50%;
+    height: 400px;
+    z-index: 3;
+    border-radius: 5px;
 }

@@ -28,7 +28,7 @@ MongoClient.connect('mongodb+srv://admin:kjs01023@cluster0.vvzafbn.mongodb.net/?
     });
 })
 
-// MARK: LOGIN
+// MARK: LOGIN - 비밀번호 암호화 기능 구현하기!!
 
 app.get('/login', function(request, response){
     response.render('login.ejs')

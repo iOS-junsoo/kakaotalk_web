@@ -15,6 +15,13 @@
 
 <body>
 
+    <div class="create_Area" >
+        <div class="create_chatroom">
+            <h3 style="text-align: center; margin-top: 10px;">채팅방 만들기</h3>
+            
+        </div>
+    </div>
+
     <div class="main">
         <div class="sidebar">
             <div class="sidebar_header">
@@ -189,6 +196,17 @@
         window.onresize = function() {
             $('.main_friend').css('height', window.innerHeight - 150)
             console.log(window.innerHeight);
+        }
+
+        $('.fa-comment-medical').click(function(){
+            $('.create_chatroom').css('display', 'block');
+        })
+        
+        $('.create_chatroom').css('margin-bottom', -(window.innerHeight/2)-400)
+        window.onresize = function() {
+            $('.create_chatroom').css('margin-bottom', -(window.innerHeight/2)-400)
+            console.log(window.outerWidth-window.innerHeight);
+            
         }
     </script>
     
