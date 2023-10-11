@@ -16,4 +16,5 @@ $('.main').css('height', window.innerHeight - 150)
         window.onresize = function() {
             $('.main').css('height', window.innerHeight - 150)
             console.log(window.innerHeight);
-        }
+}
+

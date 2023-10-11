@@ -238,10 +238,79 @@ li{
 
 .find_friends, .create_chatroom{
     display: none;
+    text-align: center;
     background-color: lightgray;
     position: relative;
-    width: 50%;
+    width: 500px;
     height: 400px;
     z-index: 3;
     border-radius: 5px;
+    box-shadow: 5px 5px 5px black;
+}
+
+
+
+#search{
+    padding: 3px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--button-color);
+    color: white;
+}
+
+#create_chatroom_Btn{
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #2C73D2;
+    color: white;
+    
+}
+
+#id_input, #chatroom_name_input{
+    width: 300px;
+    padding: 3px 0;
+    border: none;
+    border-radius: 5px;
+}
+
+.friends_List{
+
+    height: 200px;
+    overflow-y: scroll;
+}
+
+.friends_List li{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.friend_add_Btn{
+    padding: 3px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #2C73D2;
+    color: white;
+    margin-left: 10px;
+}
+
+#cancel_Btn1{
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #C34A36;
+    color: white;
+}
+
+#cancel_Btn2{
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #C34A36;
+    color: white;
 }

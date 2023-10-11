@@ -18,7 +18,66 @@
     <div class="create_Area" >
         <div class="create_chatroom">
             <h3 style="text-align: center; margin-top: 10px;">채팅방 만들기</h3>
-            
+
+            <input id="chatroom_name_input" placeholder="채팅방 이름을 입력해주세요." style="margin-bottom: 20px;">
+
+            <div class="friends_List">
+                <ul>
+                    <li>
+                        <i class="fa-regular fa-circle-user"></i>
+                        <i>친구1</i>
+                    </li>
+                    <li>
+                        <i class="fa-regular fa-circle-user"></i>
+                        <i>친구2</i>
+                    </li>
+                    <li>
+                        <i class="fa-regular fa-circle-user"></i>
+                        <i>친구3</i>
+                    </li>
+                    <li>
+                        <i class="fa-regular fa-circle-user"></i>
+                        <i>친구1</i>
+                    </li>
+                    <li>
+                        <i class="fa-regular fa-circle-user"></i>
+                        <i>친구2</i>
+                    </li>
+                    <li>
+                        <i class="fa-regular fa-circle-user"></i>
+                        <i>친구3</i>
+                    </li>
+                    <li>
+                        <i class="fa-regular fa-circle-user"></i>
+                        <i>친구1</i>
+                    </li>
+                    <li>
+                        <i class="fa-regular fa-circle-user"></i>
+                        <i>친구2</i>
+                    </li>
+                    <li>
+                        <i class="fa-regular fa-circle-user"></i>
+                        <i>친구3</i>
+                    </li>
+                    <li>
+                        <i class="fa-regular fa-circle-user"></i>
+                        <i>친구1</i>
+                    </li>
+                    <li>
+                        <i class="fa-regular fa-circle-user"></i>
+                        <i>친구2</i>
+                    </li>
+                    <li>
+                        <i class="fa-regular fa-circle-user"></i>
+                        <i>친구3</i>
+                    </li>
+                </ul>
+            </div>
+
+            <button id="create_chatroom_Btn">채팅방 생성</button>
+
+            <button id="cancel_Btn2">나가기</button>
+
         </div>
     </div>
 
@@ -200,6 +259,10 @@
 
         $('.fa-comment-medical').click(function(){
             $('.create_chatroom').css('display', 'block');
+        })
+
+        $('#cancel_Btn2').click(function(){
+            $('.create_chatroom').css('display', 'none');
         })
         
         $('.create_chatroom').css('margin-bottom', -(window.innerHeight/2)-400)
