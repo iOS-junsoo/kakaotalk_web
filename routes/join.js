@@ -6,7 +6,7 @@ router.get('/join', function(request, response){
 
 router.post('/adduser', function(request, response){
 
-    request.app.db.collection('user').insertOne({email: request.body.email, pw: request.body.pw, realname: request.body.realname, nickname: request.body.nickname}, function (error, result) {
+    request.app.db.collection('user').insertOne({email: request.body.email, pw: request.body.pw, realname: request.body.realname, nickname: request.body.nickname, friends: []}, function (error, result) {
         if (!result) {
 
         } else {

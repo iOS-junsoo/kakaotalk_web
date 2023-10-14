@@ -21,57 +21,19 @@
             </div>
             
             <div class="search_Area" style="margin-top: 20px;margin-bottom: 30px;">
-                <input id="id_input">
-                <button id="search">검색</button>
+
+                <form action="/search" method="POST">
+                    <input type="text" id="email_input" name="email" placeholder="상대방의 이메일을 입력해주세요.">
+                    <button id="search" type="submit">검색</button>
+                </form>
+                    
+                
+
+               
             </div>
 
             <div class="friends_List">
-                <ul>
-                    <li>
-                        <i class="fa-regular fa-circle-user"></i>
-                        <i>친구1</i>
-                        <button class="friend_add_Btn">추가</button>
-                    </li>
-                    <li>
-                        <i class="fa-regular fa-circle-user"></i>
-                        <i>친구2</i>
-                        <button class="friend_add_Btn">추가</button>
-                    </li>
-                    <li>
-                        <i class="fa-regular fa-circle-user"></i>
-                        <i>친구3</i>
-                        <button class="friend_add_Btn">추가</button>
-                    </li> <li>
-                        <i class="fa-regular fa-circle-user"></i>
-                        <i>친구1</i>
-                        <button class="friend_add_Btn">추가</button>
-                    </li>
-                    <li>
-                        <i class="fa-regular fa-circle-user"></i>
-                        <i>친구2</i>
-                        <button class="friend_add_Btn">추가</button>
-                    </li>
-                    <li>
-                        <i class="fa-regular fa-circle-user"></i>
-                        <i>친구3</i>
-                        <button class="friend_add_Btn">추가</button>
-                    </li>
-                    <li>
-                        <i class="fa-regular fa-circle-user"></i>
-                        <i>친구1</i>
-                        <button class="friend_add_Btn">추가</button>
-                    </li>
-                    <li>
-                        <i class="fa-regular fa-circle-user"></i>
-                        <i>친구2</i>
-                        <button class="friend_add_Btn">추가</button>
-                    </li>
-                    <li>
-                        <i class="fa-regular fa-circle-user"></i>
-                        <i>친구3</i>
-                        <button class="friend_add_Btn">추가</button>
-                    </li>
-                </ul>
+                     
             </div>
             <button id="cancel_Btn1">나가기</button>
         </div>
@@ -85,91 +47,20 @@
             <div class="sidebar_friendsList">
                 <div class="me">
                     <i class="fa-regular fa-circle-user"></i>
-                    <i> <b>김준수</b> </i>
+                    <i> <b><%= userInfo.nickname %></b> </i>
                 </div>
                 <hr width=”80%” color=”lightgray” noshade />
                 <div class="friends">
                     <ul>
-                        <li>
-                            <i class="fa-regular fa-circle-user"></i>
-                            <i>친구1</i>
-                        </li>
-                        <li>
-                            <i class="fa-regular fa-circle-user"></i>
-                            <i>친구2</i>
-                        </li>
-                        <li>
-                            <i class="fa-regular fa-circle-user"></i>
-                            <i>친구3</i>
-                        </li>
-                        <li>
-                            <i class="fa-regular fa-circle-user"></i>
-                            <i>친구4</i>
-                        </li>
-                        <li>
-                            <i class="fa-regular fa-circle-user"></i>
-                            <i>친구5</i>
-                        </li>
-                        <li>
-                            <i class="fa-regular fa-circle-user"></i>
-                            <i>친구1</i>
-                        </li>
-                        <li>
-                            <i class="fa-regular fa-circle-user"></i>
-                            <i>친구2</i>
-                        </li>
-                        <li>
-                            <i class="fa-regular fa-circle-user"></i>
-                            <i>친구3</i>
-                        </li>
-                        <li>
-                            <i class="fa-regular fa-circle-user"></i>
-                            <i>친구4</i>
-                        </li>
-                        <li>
-                            <i class="fa-regular fa-circle-user"></i>
-                            <i>친구5</i>
-                        </li>
-                        <li>
-                            <i class="fa-regular fa-circle-user"></i>
-                            <i>친구1</i>
-                        </li>
-                        <li>
-                            <i class="fa-regular fa-circle-user"></i>
-                            <i>친구2</i>
-                        </li>
-                        <li>
-                            <i class="fa-regular fa-circle-user"></i>
-                            <i>친구3</i>
-                        </li>
-                        <li>
-                            <i class="fa-regular fa-circle-user"></i>
-                            <i>친구4</i>
-                        </li>
-                        <li>
-                            <i class="fa-regular fa-circle-user"></i>
-                            <i>친구5</i>
-                        </li>
-                        <li>
-                            <i class="fa-regular fa-circle-user"></i>
-                            <i>친구1</i>
-                        </li>
-                        <li>
-                            <i class="fa-regular fa-circle-user"></i>
-                            <i>친구2</i>
-                        </li>
-                        <li>
-                            <i class="fa-regular fa-circle-user"></i>
-                            <i>친구3</i>
-                        </li>
-                        <li>
-                            <i class="fa-regular fa-circle-user"></i>
-                            <i>친구4</i>
-                        </li>
-                        <li>
-                            <i class="fa-regular fa-circle-user"></i>
-                            <i>친구5</i>
-                        </li>
+
+                        <% for(var i = 0; i < userInfo.friends.length; i++){ %>
+                            <li>
+                                <i class="fa-regular fa-circle-user"></i>
+                                <i><%= userInfo.friends[i] %></i>
+                            </li>
+                        <% } %>
+
+                
                     </ul>
                 </div>
 
@@ -208,6 +99,8 @@
             <div class="chat_area_footer">
                 <input id="chat-input">
                 <button id="send">전송</button>
+
+
             </div>
         </div>
             
@@ -239,9 +132,73 @@
         $('.find_friends').css('margin-bottom', -(window.innerHeight/2)-400)
         window.onresize = function() {
             $('.find_friends').css('margin-bottom', -(window.innerHeight/2)-400)
-            console.log(window.outerWidth-window.innerHeight);
             
         }
+
+        var addFriendName = '';
+
+        $('#search').click(function(){
+
+            eventSource = new EventSource('/search');
+            eventSource.addEventListener('friendInfo', function (e){
+                
+                if (e.data == '해당 이메일로 가입한 유저가 없습니다.'){
+                    $('.friends_List').html('')
+                var friend = `<ul>
+                        <li>
+                            <i>${e.data}</i>
+                        </li>
+                        
+                    </ul> `
+                $('.friends_List').append(friend);
+                    
+                } else {
+                    addFriendName = JSON.parse(e.data).nickname
+                    console.log(addFriendName);
+                    $('.friends_List').html('')
+                    var friend = `<ul>
+                            <li>
+                                <i class="fa-regular fa-circle-user"></i>
+                                <i>${JSON.parse(e.data).nickname}</i>
+                                <button class="friend_add_Btn">추가</button>
+                            </li>
+                            
+                        </ul> `
+                    $('.friends_List').append(friend);
+                }
+                
+                
+
+                if (eventSource != undefined){ //이벤트 소스라는 변수에 무언가 저장되어 있다면 닫아라
+                    eventSource.close();
+                }
+                
+            });
+
+            // 
+
+        })
+
+        $('.friends_List').click(function(e){
+            if (e.target == document.getElementsByClassName('friend_add_Btn')[0]){
+                $.ajax({
+                method: 'post',
+                url: '/addfriend',
+                data: {nickname: addFriendName}
+                    }).done(function (result) {
+                        //성공시 실행 할 코드
+                        console.log('성공');
+                        location.reload();
+                        // Window.stop()
+                    }).fail(function (error) {
+                        //실패시 실행 할 코드
+                        console.log('실패');
+                });
+            }
+            
+            
+        })
+        
         
     </script>
     

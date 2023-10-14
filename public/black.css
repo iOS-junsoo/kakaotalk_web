@@ -268,7 +268,7 @@ li{
     
 }
 
-#id_input, #chatroom_name_input{
+#email_input, #chatroom_name_input{
     width: 300px;
     padding: 3px 0;
     border: none;
