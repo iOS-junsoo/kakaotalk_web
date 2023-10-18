@@ -138,7 +138,7 @@
         var addFriendName = '';
 
         $('#search').click(function(){
-
+            var eventSource;
             eventSource = new EventSource('/search');
             eventSource.addEventListener('friendInfo', function (e){
                 

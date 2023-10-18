@@ -97,7 +97,10 @@ app.get('/main/friends', checkLogin, function(request, response){
 });
 
 app.get('/main/chats', checkLogin, function(request, response){
-    response.render('chats.ejs')
+    db.collection('chatroom').find( {creator: request.user.nickname}).toArray(function(error, result){
+        response.render('chats.ejs', {userInfo: request.user, chatInfo: result})
+    });
+    
 });
 
 app.get('/main/setting', checkLogin, function(request, response){
@@ -159,5 +162,25 @@ app.post('/addfriend', function(request, response){
     friendsLIst.push(request.body.nickname);
     db.collection('user').updateOne( { email : request.user.email }, {$set : { friends: friendsLIst }}, function (error, result) {
         response.render('friends.ejs', {userInfo: request.user})
+    });
+});
+
+//MARK: 채팅방 생성
+
+app.post('/create_chatroom', function(request, response){
+   console.log(request.body.title);
+   console.log(request.body.partner);
+   db.collection('chatroom').insertOne({title: request.body.title, partner: request.body.partner, creator: request.user.nickname}, function (error, result) {
+    console.log(result.ops[0]);
+    
+        if (!result) {
+            
+        } else {
+            console.log('성공');
+            
+            db.collection('chatroom').find( {creator: request.user.nickname}).toArray(function(error, result){
+                response.render('chats.ejs', {userInfo: request.user, chatInfo: result})
+            });
+        }
     });
 });
