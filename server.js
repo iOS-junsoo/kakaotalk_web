@@ -7,6 +7,11 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
 
+//socket.io 세팅
+const http = require('http').createServer(app);
+const { Server } = require("socket.io");
+const { request } = require('http');
+const io = new Server(http);
 
 app.use(session({secret : '비밀코드', resave : true, saveUninitialized: false}));
 app.use(passport.initialize());
@@ -20,13 +25,14 @@ app.set('view engine', 'ejs');
 
 var email = '';
 var friendsLIst;
+var user_id;
 
 var db;
 MongoClient.connect('mongodb+srv://admin:kjs01023@cluster0.vvzafbn.mongodb.net/?retryWrites=true&w=majority', function(error, client){
     if (error) return console.log(error);
     db = client.db('kakaotalk');
     app.db = db; //라우터 파일 분리를 위해서 작성
-    app.listen(8080, function(){
+    http.listen(8080, function(){
         console.log('8080 포트에 입장하셨습니다.');
     });
 })
@@ -75,6 +81,7 @@ passport.use(new LocalStrategy({
 passport.serializeUser(function(user, done) {
     done(null, user.email);
     friendsLIst = user.friends;
+    user_id = user._id
 });
 
 // 세션 찾기
@@ -98,6 +105,7 @@ app.get('/main/friends', checkLogin, function(request, response){
 
 app.get('/main/chats', checkLogin, function(request, response){
     db.collection('chatroom').find( {creator: request.user.nickname}).toArray(function(error, result){
+        
         response.render('chats.ejs', {userInfo: request.user, chatInfo: result})
     });
     
@@ -124,7 +132,6 @@ function checkLogin(request, response, next){
 //MARK: 친구찾기 
 
 app.post('/search', function(request, response){
-    console.log(request.body.email);
     email = request.body.email;
 });
 
@@ -135,7 +142,6 @@ app.get('/search', function(request, response){
     db.collection('user').findOne({ email: email }, function (error, result) {
        
         if (!result){
-            console.log('검색 결과 없음');
             response.writeHead(200, { //헤더를 변경해주는 부분
                 "Connection": "keep-alive",
                 "Content-Type": "text/event-stream",
@@ -168,19 +174,49 @@ app.post('/addfriend', function(request, response){
 //MARK: 채팅방 생성
 
 app.post('/create_chatroom', function(request, response){
-   console.log(request.body.title);
-   console.log(request.body.partner);
    db.collection('chatroom').insertOne({title: request.body.title, partner: request.body.partner, creator: request.user.nickname}, function (error, result) {
-    console.log(result.ops[0]);
-    
         if (!result) {
             
         } else {
-            console.log('성공');
-            
             db.collection('chatroom').find( {creator: request.user.nickname}).toArray(function(error, result){
                 response.render('chats.ejs', {userInfo: request.user, chatInfo: result})
             });
         }
+    });
+});
+
+var title;
+
+//MARK: socket.io
+io.on('connection', function(socket){
+    console.log('connet in webSocket...');
+
+   
+    //클라이언트에서 보낸 데이터 받기
+    socket.on('chatroom-name', function(data){
+        title = data;
+        db.collection('message').find( {title: title}).toArray(function(error, result){
+            io.emit('server-send', JSON.stringify(result))
+            io.emit('user_id', user_id)
+        });
+
+    })
+
+  
+})
+
+//MARK: 채팅 기능
+
+app.post('/chat', function(request, response){
+    db.collection('message').insertOne({title: title, writer: user_id, message: request.body.message, time: request.body.time }, function (error, result) {
+        
+        response.status(200).send({ message: '성공'})
+    });
+});
+
+app.get('/get_message', function(request, response){
+    db.collection('message').find( {title: title}).toArray(function(error, result){
+        console.log(result);
+        response.status(200).send({ message: result})
     });
 });

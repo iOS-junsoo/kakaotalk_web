@@ -208,7 +208,7 @@ li{
 .chats li{
     display: flex;
     align-items: center;
-    margin-top: 15px;
+    margin-top: 5px;
 }
 
 .sidebar_footer > .fa-regular, .fa-solid{
@@ -216,7 +216,7 @@ li{
     margin: 0;
 }
 
-.chat_opponent{
+.chat_title{
     font-weight: bold;
     font-size: 18px;
 }
