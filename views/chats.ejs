@@ -205,9 +205,7 @@
                     $('.chat_area_header').append(title);
                 }
             }     
-
-            
-            
+             
             socket.emit('chatroom-name', chat_room_name);  
             
             socket.on('user_id', function (data) { //서버에서 전달 받은 데이터 출력
@@ -220,37 +218,15 @@
                         data: {chat_room_name: chat_room_name}
                         }).done(function (result) {
                             //성공시 실행 할 코드
-                           
-                            console.log(result.message);
                             chat(result.message)
                         }).fail(function (error) {
                             //실패시 실행 할 코드
                             console.log('실패');
                     });
 
-            // for( i = 0; i < message.length; i++) {
-            //     if (message[i].writer == user_id) {
-            //         var message = `<li>
-            //             <span class="chat-box mine">${message[i].message}</span>
-            //         </li>`;
-            //         $('.chatcontent').append(message);
-            //     } else {
-                    
-            //         var message = `<li>
-            //             <span class="opponent">
-            //                 <i class="oppo_nickname">${message[i].message}</i>
-            //                 <br>
-            //                 <span class="chat">
-            //                     <span class="chat-box">${message[i].message}</span>
-                                
-            //                 </span>
-                            
-            //             </span>
-            //         </li>`;
-            //         $('.chatcontent').append(message);
-            //     }
-            // }
-
+            localStorage.setItem('selectedChatRoom', chat_room_name);   
+            localStorage.setItem('user_id', user_id);
+            localStorage.setItem('partner', partner);
         })
 
         // Socket.io 관련작업
@@ -304,8 +280,6 @@
                         <span class="chat-box mine">${data[i].message}</span>
                     </li>`;
                     $('.chatcontent').append(message);
-
-                    console.log(11);
                     
                 } else {
                     
@@ -324,14 +298,12 @@
                         $('.chatcontent').append(message);
 
                         previous_message_time = data[i].time;
-                        console.log(22);
                     } else {
                         var message = ` <span class="mt-1 chat-box">${data[i].message}</span>`
                           
                         $(`.time${data[i].time}`).append(message);
 
                         previous_message_time = data[i].time;
-                        console.log(33);
                     }
 
                     

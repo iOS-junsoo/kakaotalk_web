@@ -79,26 +79,12 @@
         
         <div class="chat_area">
             <div class="chat_area_header">
-                <i> <b>친구 1의 채팅방</b> </i>
+                
             </div>
             <div class="chat_area_chatContent">
                 <ul class="list-group chatcontent">
 
-                    <li><span class="chat-box mine">안녕!</span></li>
                     
-                    <li>
-                        <span class="opponent">
-                            <i class="oppo_nickname">친구 1</i>
-                            <br>
-                            <span class="chat">
-                                <span class="chat-box">안녕하세요.</span>
-                                <span class="mt-1 chat-box">관리자님</span>
-                            </span>
-                            
-                        </span>
-                    </li>
-                    
-                    <li><span class="chat-box mine">안녕! 친구1</span></li>
                 </ul>
             </div>
             <div class="chat_area_footer">
@@ -122,9 +108,14 @@
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"
         integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 
+        <!-- Socket.io cdn -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js" integrity="sha512-zoJXRvW2gC8Z0Xo3lBbao5+AS3g6YWr5ztKqaicua11xHo+AvE1b0lT9ODgrHTmNUxeCw0Ry4BGRYZfXu70weg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <!-- JavaScript -->
     <script src="/public/main.js"></script>
     <script>
+
+        var socket = io();
         $('.fa-user-plus').click(function(){
             $('.find_friends').css('display', 'block');
         })
@@ -203,8 +194,122 @@
             
             
         })
+
+        var chat_room_name = localStorage.getItem('selectedChatRoom');
+        var user_id = localStorage.getItem('user_id');
+        var partner = localStorage.getItem('partner');
+        
+
+        window.onload = function(){
+            var title = `<i> <b>${chat_room_name}</b> </i>`
+                    
+            $('.chat_area_header').html('');
+
+            $('.chat_area_header').append(title);
+            
+            console.log(chat_room_name);
+            
+            socket.emit('chatroom-name', chat_room_name);  
+
+            $.ajax({
+                    method: 'get',
+                    url: '/get_message'
+                }).done(function (result) {
+                    //성공시 실행 할 코드
+
+                    console.log(result.message);
+                    chat(result.message)
+                }).fail(function (error) {
+                    //실패시 실행 할 코드
+                    console.log('실패');
+                });
+
+        }
+
+
+        $('#send').click(function(){
+
+            let today = new Date();
+            let hours = today.getHours(); // 시
+            let minutes = today.getMinutes();  // 분
+
+            $.ajax({
+                method: 'post',
+                url: '/chat',
+                data: { message: $('#chat-input').val(), time: `${hours}` + `${minutes}` }
+            }).done(function (result) {
+                //성공시 실행 할 코드
+                $.ajax({
+                    method: 'get',
+                    url: '/get_message',
+                    data: { chat_room_name: chat_room_name }
+                }).done(function (result) {
+                    //성공시 실행 할 코드
+
+                    console.log(result.message);
+                    chat(result.message)
+                }).fail(function (error) {
+                    //실패시 실행 할 코드
+                    console.log('실패');
+                });
+
+                console.log('성공');
+            }).fail(function (error) {
+                //실패시 실행 할 코드
+                console.log('실패');
+            });
+
+
+
+        })
+
+            function chat(data) {
+
+                var previous_message_time = "";
+                $('.chatcontent').html('');
+                for (i = 0; i < data.length; i++) {
+                    if (data[i].writer == user_id) {
+
+                        var message = `<li>
+                    <span class="chat-box mine">${data[i].message}</span>
+                </li>`;
+                        $('.chatcontent').append(message);
+
+                    } else {
+
+                        if (previous_message_time == "" || previous_message_time != data[i].time) {
+                            var message = `<li>
+                    <span class="opponent">
+                        <i class="oppo_nickname">${partner}</i>
+                        <br>
+                        <span class="chat time${data[i].time}">
+                            <span class="chat-box">${data[i].message}</span>
+                        
+                        </span>
+                        
+                        </span>
+                    </li>`;
+                            $('.chatcontent').append(message);
+
+                            previous_message_time = data[i].time;
+                        } else {
+                            var message = ` <span class="mt-1 chat-box">${data[i].message}</span>`
+
+                            $(`.time${data[i].time}`).append(message);
+
+                            previous_message_time = data[i].time;
+                        }
+
+
+                    }
+                }
+
+
+
+        }
         
         
+
     </script>
     
 
