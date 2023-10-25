@@ -23,7 +23,6 @@ app.use(express.urlencoded( {extended : true } ));
 app.use('/public', express.static('public'))
 app.set('view engine', 'ejs');
 
-
 var email = '';
 var friendsLIst;
 var user_id;
@@ -196,8 +195,6 @@ io.on('connection', function(socket){
     //클라이언트에서 보낸 데이터 받기
     socket.on('chatroom-name', function(data){
         title = data;
-    
-        
         db.collection('message').find( {title: title}).toArray(function(error, result){
             io.emit('server-send', JSON.stringify(result))
             io.emit('user_id', user_id)
@@ -219,9 +216,7 @@ app.post('/chat', function(request, response){
 
 app.get('/get_message', function(request, response){
     db.collection('message').find( {title: title}).toArray(function(error, result){
-
         console.log(result);
-        
         response.status(200).send({ message: result})
     });
 });
