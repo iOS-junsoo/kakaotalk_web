@@ -41,6 +41,7 @@
     <div class="main">
 
         <!-- 사이드바 구역 -->
+        <div class="user_id" style="display: none;"><%= userInfo._id %></div>
 
         <div class="sidebar">
             <div class="sidebar_header">
@@ -197,6 +198,7 @@
 
         var chat_room_name = localStorage.getItem('selectedChatRoom');
         var user_id = localStorage.getItem('user_id');
+        
         var partner = localStorage.getItem('partner');
         
 
@@ -223,6 +225,9 @@
                     //실패시 실행 할 코드
                     console.log('실패');
                 });
+
+                user_id = $('.user_id').html();
+                localStorage.setItem('user_id', user_id);
 
         }
 
@@ -274,7 +279,8 @@
                     <span class="chat-box mine">${data[i].message}</span>
                 </li>`;
                         $('.chatcontent').append(message);
-
+                        console.log('내가 보낸 메시지');
+                        
                     } else {
 
                         if (previous_message_time == "" || previous_message_time != data[i].time) {
@@ -292,12 +298,14 @@
                             $('.chatcontent').append(message);
 
                             previous_message_time = data[i].time;
+                            console.log('니가 보낸 메시지 1');
                         } else {
                             var message = ` <span class="mt-1 chat-box">${data[i].message}</span>`
 
                             $(`.time${data[i].time}`).append(message);
 
                             previous_message_time = data[i].time;
+                            console.log('니가 보낸 메시지 2');
                         }
 
 

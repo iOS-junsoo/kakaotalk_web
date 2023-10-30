@@ -188,8 +188,42 @@
                 });
             }
         })
+
+
         
         var socket = io();
+
+        var chat_room_name = localStorage.getItem('selectedChatRoom');
+        var user_id = localStorage.getItem('user_id');
+        
+        var partner = localStorage.getItem('partner');
+        
+        window.onload = function(){
+            var title = `<i> <b>${chat_room_name}</b> </i>`
+                    
+            $('.chat_area_header').html('');
+
+            $('.chat_area_header').append(title);
+            
+            console.log(chat_room_name);
+            
+            socket.emit('chatroom-name', chat_room_name);  
+
+            $.ajax({
+                    method: 'get',
+                    url: '/get_message'
+                }).done(function (result) {
+                    //성공시 실행 할 코드
+
+                    console.log(result.message);
+                    chat(result.message)
+                }).fail(function (error) {
+                    //실패시 실행 할 코드
+                    console.log('실패');
+                });
+
+        }
+        
 
         $('.chat_cell').click(function(e){
             
