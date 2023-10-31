@@ -60,7 +60,6 @@ passport.use(new LocalStrategy({
     session: true,
     passReqToCallback: false,
 }, function (enteredEmail, enteredPW, done) {
-    console.log(enteredEmail, enteredPW);
     db.collection('user').findOne({ email: enteredEmail }, function (error, result) {
         if (error) return done(error)
 
@@ -104,11 +103,32 @@ app.get('/main/friends', checkLogin, function(request, response){
     
 });
 
+var userChatRoom_List = [];
+var userChatRoom_Cell;
+
 app.get('/main/chats', checkLogin, function(request, response){
     db.collection('chatroom').find( {creator: request.user.nickname}).toArray(function(error, result){
         
-        response.render('chats.ejs', {userInfo: request.user, chatInfo: result})
+        for (i = 0 ; i < result.length; i++){
+            userChatRoom_Cell = {title: result[i].title, partner: result[i].partner, creator: result[i].creator, owner: 'y'}
+            userChatRoom_List.push(userChatRoom_Cell);
+        }
+
+        db.collection('chatroom').find( {partner: request.user.nickname}).toArray(function(error, result){
+        
+            for (i = 0 ; i < result.length; i++){
+                userChatRoom_Cell = {title: result[i].title, partner: result[i].partner, creator: result[i].creator, owner: 'n'}
+                userChatRoom_List.push(userChatRoom_Cell);
+            }
+            console.log([...new Set(userChatRoom_List.map(JSON.stringify))].map(JSON.parse));
+            
+    
+            response.render('chats.ejs', {userInfo: request.user, chatInfo: [...new Set(userChatRoom_List.map(JSON.stringify))].map(JSON.parse)})
+            userChatRoom_List = [];
+        });
+
     });
+
     
 });
 
@@ -179,8 +199,17 @@ app.post('/create_chatroom', function(request, response){
         if (!result) {
             
         } else {
+
             db.collection('chatroom').find( {creator: request.user.nickname}).toArray(function(error, result){
-                response.render('chats.ejs', {userInfo: request.user, chatInfo: result})
+        
+                response.render('chats.ejs', {userInfo: request.user, chatInfo: result, creator: 'yes'})
+            });
+
+            db.collection('chatroom').find( {partner: request.user.nickname}).toArray(function(error, result){
+        
+                response.render('chats.ejs', {userInfo: request.user, chatInfo: result, creator: 'no'})
+                
+                
             });
         }
     });
@@ -219,8 +248,6 @@ app.post('/chat', function(request, response){
 
 app.get('/get_message', function(request, response){
     db.collection('message').find( {title: title}).toArray(function(error, result){
-
-        console.log(result);
         
         response.status(200).send({ message: result})
     });

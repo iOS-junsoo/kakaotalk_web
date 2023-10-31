@@ -55,19 +55,31 @@
             <div class="sidebar_chatsList">
                 <div class="chats">
                     <ul>
-
                         <% for(var i = 0; i < chatInfo.length; i++){ %>
-                            <li class="chat_cell">
-                                <i class="fa-regular fa-circle-user"></i>
-                                <div class="chatInfo">
-                                    <i class="chat_title"><%= chatInfo[i].title %></i>
-                                    <i class="chat_lastContent"><%= chatInfo[i].partner %></i>
-                                </div>
-                                
+                            <% if(chatInfo[i].owner == 'y'){%>
+                                <!-- 내가 생성한 내가 포함된 채팅방 -->
+                                <li class="chat_cell">
+                                    <i class="fa-regular fa-circle-user"></i>
+                                    <div class="chatInfo">
+                                        <i class="chat_title"><%= chatInfo[i].title %></i>
+                                        <i class="chat_opponet"><%= chatInfo[i].partner %></i>
+                                        
+                                    </div>
+                                </li>
+                                <hr width=”100%” color=”lightgray” style="margin: 10px;" noshade />
+                            <% } else{ %>
+                                <!-- 상대방이 생성한 내가 포함된 채팅방 -->
+                                <li class="chat_cell">
+                                    <i class="fa-regular fa-circle-user"></i>
+                                    <div class="chatInfo">
+                                        <i class="chat_title"><%= chatInfo[i].title %></i>
+                                        <i class="chat_opponet"><%= chatInfo[i].creator %></i>
+                                        
+                                    </div>
+                                </li>
+                                <hr width=”100%” color=”lightgray” style="margin: 10px;" noshade />
+                            <% } %>
                             
-
-                            </li>
-                            <hr width=”100%” color=”lightgray” style="margin: 10px;" noshade />
                         <% } %>
                         
                         
