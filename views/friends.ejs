@@ -51,7 +51,7 @@
             <div class="sidebar_friendsList">
                 <div class="me">
                     <i class="fa-regular fa-circle-user"></i>
-                    <i> <b><%= userInfo.nickname %></b> </i>
+                    <i > <b class="user_nickname"><%= userInfo.nickname %></b> </i>
                 </div>
                 <hr width=”80%” color=”lightgray” noshade />
                 <div class="friends">
@@ -202,6 +202,7 @@
         var partner = localStorage.getItem('partner');
         
 
+        
         window.onload = function(){
             var title = `<i> <b>${chat_room_name}</b> </i>`
                     
@@ -221,10 +222,35 @@
 
                     console.log(result.message);
                     chat(result.message)
+
                 }).fail(function (error) {
                     //실패시 실행 할 코드
                     console.log('실패');
                 });
+
+
+            $.ajax({
+                    method: 'get',
+                    url: '/get_user',
+                }).done(function (result) {
+                    //성공시 실행 할 코드
+                    console.log($('.user_nickname').html() == result.chatInfo.partner);
+                    
+                    if ($('.user_nickname').html() == result.chatInfo.partner) {
+                        localStorage.setItem('partner', result.chatInfo.creator);
+                        partner = result.chatInfo.creator
+                    } else {
+                        localStorage.setItem('partner', result.chatInfo.partner);
+                        partner = result.chatInfo.partner
+                    }
+
+                }).fail(function (error) {
+                    //실패시 실행 할 코드
+                    console.log('실패');
+                });
+
+
+                
 
                 user_id = $('.user_id').html();
                 localStorage.setItem('user_id', user_id);

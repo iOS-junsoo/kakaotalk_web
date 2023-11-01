@@ -25,19 +25,24 @@
             </div>
             <div class="sidebar_settingList">
                 설정화면
+
+                <button id="logout">로그아웃</button>
             </div>
             <div class="sidebar_footer">
                 <i class="fa-regular fa-user"></i>
                 <i class="fa-regular fa-comment"></i>
                 <i class="fa-solid fa-ellipsis"></i>
             </div>
+
+            
+
         </div>
 
         <!-- 채팅 구역 -->
 
         <div class="chat_area">
             <div class="chat_area_header">
-                <i> <b>친구 1의 채팅방</b> </i>
+                <i> <b>채팅방을 선택해주세요.</b> </i>
             </div>
             <div class="chat_area_chatContent">
                 <ul class="list-group chatcontent">
@@ -191,6 +196,21 @@
 
 
         }
+
+        $('#logout').click(function(){
+            $.ajax({
+                    method: 'get',
+                    url: '/logout'
+                }).done(function (result) {
+                    //성공시 실행 할 코드
+                    window.location.href = "http://localhost:8080/login"
+                    console.log('성공');
+                    
+                }).fail(function (error) {
+                    //실패시 실행 할 코드
+                    console.log('실패');
+                });
+        });
 
 
     </script>

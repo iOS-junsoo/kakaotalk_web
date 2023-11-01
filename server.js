@@ -225,7 +225,7 @@ io.on('connection', function(socket){
     //클라이언트에서 보낸 데이터 받기
     socket.on('chatroom-name', function(data){
         title = data;
-    
+        console.log('1122');
         
         db.collection('message').find( {title: title}).toArray(function(error, result){
             io.emit('server-send', JSON.stringify(result))
@@ -252,4 +252,25 @@ app.get('/get_message', function(request, response){
         response.status(200).send({ message: result})
     });
 });
-///ㅋㅋㅋ
+//MARK: 아이디로 user 검색 
+
+app.get('/get_user', function(request, response){
+    
+    db.collection('chatroom').findOne({ title: title }, function (error, result) {
+        response.status(200).send({ chatInfo: result})
+        console.log(result);
+        
+    })
+});
+
+// MARK: 로그아웃
+app.get('/logout', (req, res, next) => {
+    req.logOut(err => {
+      if (err) {
+        return next(err);
+      } else {
+        console.log('로그아웃됨.');
+        res.status(200).send('성공')
+      }
+    });
+  });
